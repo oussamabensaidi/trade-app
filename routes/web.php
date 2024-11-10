@@ -1,0 +1,28 @@
+<?php
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\trade_controller;
+use App\Http\Controllers\todolistcontroller;
+Route::get('/index', [trade_controller::class, 'index'])->name('index');
+Route::get('/indexQuick', [trade_controller::class, 'indexQuick'])->name('indexQuick');
+Route::get('/completed', [trade_controller::class, 'completed'])->name('completed');
+Route::get ('/create',[trade_controller::class, 'create'])->name('create');
+Route::post('/create_position', [trade_controller::class, 'create_position'])->name('create_position');
+Route::post('/inserquickposition', [trade_controller::class, 'inserquickposition'])->name('inserquickposition');
+Route::get ('/complete/{id}',[trade_controller::class, 'complete'])->name('complete');
+Route::get ('/complete_quick_page/{id}',[trade_controller::class, 'complete_quick_page'])->name('complete_quick_page');
+Route::put ('/complete_quick/{id}',[trade_controller::class, 'complete_quick'])->name('complete_quick');
+Route::get('/create_quickPosition/{id}', [trade_controller::class, 'create_quickPosition'])->name('create_quickPosition');
+Route::get ('/updateAll/{id}',[trade_controller::class, 'updateAll'])->name('updateAll');
+Route::put('/update_position/{id}', [trade_controller::class, 'update_position'])->name('update_position');
+Route::put('/update_whole/{id}', [trade_controller::class, 'update_whole'])->name('update_whole');
+Route::get('/show/{id}', [trade_controller::class, 'show'])->name('show');
+Route::get('/todolist', [todolistcontroller::class, 'index'])->name('todolist');
+Route::get('/history', [todolistcontroller::class, 'history'])->name('history');
+Route::post('/fill_todolist', [todolistcontroller::class, 'fill_todolist'])->name('fill_todolist');
+Route::post('/taskinsert', [todolistcontroller::class, 'taskinsert'])->name('taskinsert');
+Route::delete('/tasks/{id}', [todolistcontroller::class, 'destroy'])->name('tasks.destroy');
+
+Route::delete('/quick/{id}', [trade_controller::class, 'destroy'])->name('destroy');
+
+

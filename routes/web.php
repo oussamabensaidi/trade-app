@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\trade_controller;
 use App\Http\Controllers\todolistcontroller;
+
+
 Route::get('/index', [trade_controller::class, 'index'])->name('index');
 Route::get('/indexQuick', [trade_controller::class, 'indexQuick'])->name('indexQuick');
 Route::get('/completed', [trade_controller::class, 'completed'])->name('completed');
@@ -17,12 +19,22 @@ Route::get ('/updateAll/{id}',[trade_controller::class, 'updateAll'])->name('upd
 Route::put('/update_position/{id}', [trade_controller::class, 'update_position'])->name('update_position');
 Route::put('/update_whole/{id}', [trade_controller::class, 'update_whole'])->name('update_whole');
 Route::get('/show/{id}', [trade_controller::class, 'show'])->name('show');
+Route::delete('/quick/{id}', [trade_controller::class, 'destroy'])->name('destroy');
+
+
 Route::get('/todolist', [todolistcontroller::class, 'index'])->name('todolist');
+Route::get('/alltasks', [todolistcontroller::class, 'alltasks'])->name('alltasks');
+Route::get('/taskshow/{id}', [todolistcontroller::class, 'taskshow'])->name('taskshow');
 Route::get('/history', [todolistcontroller::class, 'history'])->name('history');
 Route::post('/fill_todolist', [todolistcontroller::class, 'fill_todolist'])->name('fill_todolist');
 Route::post('/taskinsert', [todolistcontroller::class, 'taskinsert'])->name('taskinsert');
+Route::post('/TaskCreation', [todolistcontroller::class, 'TaskCreation'])->name('TaskCreation');
+Route::put('/TaskUpdate/{id}', [todolistcontroller::class, 'TaskUpdate'])->name('TaskUpdate');
 Route::delete('/tasks/{id}', [todolistcontroller::class, 'destroy'])->name('tasks.destroy');
+Route::get ('/createTask',[todolistcontroller::class, 'createTask'])->name('createTask');
+Route::get ('/editTask/{id}',[todolistcontroller::class, 'editTask'])->name('editTask');
+Route::get ('/archeive',[todolistcontroller::class, 'archeive'])->name('archeive');
+Route::put ('/archeivefunc/{id}',[todolistcontroller::class, 'archeivefunc'])->name('archeivefunc');
 
-Route::delete('/quick/{id}', [trade_controller::class, 'destroy'])->name('destroy');
 
 

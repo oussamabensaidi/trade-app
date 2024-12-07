@@ -8,7 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Tasks extends Model
 {
     use HasFactory;
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'description',
+        'future_beginning',
+        'day_off', // This will store JSON array in the database
+        'motivation',
+        'deleted',
+        'level',  // This will also store a JSON array in the database
+    ];
 
     public function todolists()
     {

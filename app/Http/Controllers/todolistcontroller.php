@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\ToDoList;
 use App\Models\Tasks;
+use App\Models\TodolistTasks;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -10,17 +11,17 @@ use Illuminate\Http\Request;
 class todolistcontroller extends Controller
 {
     function index()
-        {
-            $todolist = ToDoList::all();
-            $tasks = Tasks::all();
-        
-            // Query to get the last 5 rows based on the most recent date
-            $data = DB::table('to_do_lists')
-                ->orderBy('id', 'desc') 
-                ->limit(5)               
-                ->get();
+{
+    $todolist = ToDoList::all();
+    $tasks = Tasks::all();
 
-                $rates = DB::table('to_do_lists')
+    // Query to get the last 5 rows based on the most recent date
+    $data = DB::table('to_do_lists')
+        ->orderBy('id', 'desc') 
+        ->limit(5)               
+        ->get();
+
+        $rates = DB::table('to_do_lists')
     ->orderBy('id', 'desc')
     ->limit(4)
     ->pluck('resault');
@@ -29,37 +30,46 @@ class todolistcontroller extends Controller
         return $numerator / $denominator;
     });
 
-// Calculate the total and average
-$total = $rates->sum();
-$average = $total /4 *100;
+    // Calculate the total and average
+    $total = $rates->sum();
+    $average = $total /4 *100;
 
 
-$mostdonetasks = Tasks::select('id', 'name', 'perfect_done', 'created_at')
+    $mostdonetasks = Tasks::select('id', 'name', 'perfect_done', 'created_at')
     ->get()
     ->map(function ($task) {
-        // Split the "perfect_done" string into x and y
-        [$x, $y] = explode('/', $task->perfect_done);
-        $task->x = (int) $x; // Numerator
-        $task->y = (int) $y; // Denominator
+        if ($task->perfect_done) {
+            // Split the "perfect_done" string into x and y
+            [$x, $y] = explode('/', $task->perfect_done);
+            $task->x = (int) $x; // Numerator
+            $task->y = (int) $y; // Denominator
+        } else {
+            $task->x = null; // Handle cases where perfect_done is null
+            $task->y = null;
+        }
         return $task;
     });
 
-$topTasks = $mostdonetasks->sortByDesc('x')->take(3);
-$flopTasks = $mostdonetasks->sortBy('x')->take(3);
-$oldestTasks = $tasks->sortBy('y')->take(3);
+    
+
+    $topTasks = $mostdonetasks->sortByDesc('x')->take(3);
+    $flopTasks = $mostdonetasks->sortBy('x')->take(3);
+    $oldestTasks = $tasks->sortBy('y')->take(3);
 
 
-            return view('todolist.index', [
-                'todolist' => $todolist,
-                'tasks' => $tasks,
-                'data' => $data,
-                'average' => $average,
-                'topTasks' => $topTasks,
-                'flopTasks' => $flopTasks,
-                'oldestTasks' => $oldestTasks,
-            ]);
-        }
+    return view('todolist.index', [
+        'todolist' => $todolist,
+        'tasks' => $tasks,
+        'data' => $data,
+        'average' => $average,
+        'topTasks' => $topTasks,
+        'flopTasks' => $flopTasks,
+        'oldestTasks' => $oldestTasks,
+    ]);
+}
         
+
+
 function history(){
     $todolist = ToDoList::all();
     return view('todolist.history', ['todolist'=>$todolist]);
@@ -153,7 +163,7 @@ function archeive(){
 function TaskCreation(Request $request){
 
 
-$recentTask = Tasks::create([
+Tasks::create([
     'name' => $request->name,
     'description' => $request->description,
     'level' => $request->level,
@@ -163,36 +173,54 @@ $recentTask = Tasks::create([
 ]);
 
 $todolist = ToDoList::all();
-$tasks = Tasks::all();
+    $tasks = Tasks::all();
 
-// Query to get the last 5 rows based on the most recent date
-$data = DB::table('to_do_lists')
-    ->orderBy('id', 'desc') 
-    ->limit(5)               
-    ->get();
+    // Query to get the last 5 rows based on the most recent date
+    $data = DB::table('to_do_lists')
+        ->orderBy('id', 'desc') 
+        ->limit(5)               
+        ->get();
 
-    $rates = DB::table('to_do_lists')
-->orderBy('id', 'desc')
-->limit(4)
-->pluck('resault'); 
+        $rates = DB::table('to_do_lists')
+    ->orderBy('id', 'desc')
+    ->limit(4)
+    ->pluck('resault');
+    $rates = $rates->map(function ($rate) {
+        list($numerator, $denominator) = explode('/', $rate);
+        return $numerator / $denominator;
+    });
 
-$rates = $rates->map(function ($rate) {
-list($numerator, $denominator) = explode('/', $rate);
-return $numerator / $denominator;
-});
+    // Calculate the total and average
+    $total = $rates->sum();
+    $average = $total /4 *100;
 
-// Calculate the total and average
-$total = $rates->sum();
-$average = $total /4 *100;
 
-return view('todolist.index', [
-    'recentTask' => $recentTask,
-    'success' => 'New task is created successfully!',
-    'todolist' => $todolist,
-    'tasks' => $tasks,
-    'data' => $data,
-    'average' => $average
-]);}
+    $mostdonetasks = Tasks::select('id', 'name', 'perfect_done', 'created_at')
+        ->get();
+        // ->map(function ($task) {
+        //     // Split the "perfect_done" string into x and y
+        //     [$x, $y] = explode('/', $task->perfect_done);
+        //     $task->x = (int) $x; // Numerator
+        //     $task->y = (int) $y; // Denominator
+        //     return $task;
+        // });
+
+    $topTasks = $mostdonetasks->sortByDesc('x')->take(3);
+    $flopTasks = $mostdonetasks->sortBy('x')->take(3);
+    $oldestTasks = $tasks->sortBy('y')->take(3);
+
+
+    return view('todolist.index', [
+        'todolist' => $todolist,
+        'tasks' => $tasks,
+        'data' => $data,
+        'average' => $average,
+        'topTasks' => $topTasks,
+        'flopTasks' => $flopTasks,
+        'oldestTasks' => $oldestTasks,
+    ]);
+
+}
 
 
 function TaskUpdate(Request $request ,$id){
@@ -264,5 +292,10 @@ public function destroy($id){
 
     // Redirect back with a success message
     return redirect()->route('todolist')->with('success', 'Task deleted successfully');
+}
+public function todolist_delete($id){
+    $todolist = ToDoList::findOrFail($id);
+$todolist->delete();
+return redirect()->route('history')->with('success', 'todolist submittion deleted successfully');
 }
 }

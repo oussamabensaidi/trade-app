@@ -22,6 +22,7 @@
             <tr>
                 <th>Date</th>
                 <th>Resault</th>
+                <th>action</th>
             </tr>
         </thead>
         <tbody>   
@@ -32,6 +33,11 @@
                 
                 <td>{{ $item->date }}</td>
                     <td>{{ $item->resault }}</td>
+                    <form action="{{route('todolist_delete',['id'=>$item->id])}}" method="POST" onsubmit="return confirm('are you sure about that')">
+                        @csrf
+                        @method('DELETE')
+                        <td><button type="submit" class="btn btn-danger" >delete</button></td>
+                    </form>
                 </tr>
             @endforeach
         </tbody>

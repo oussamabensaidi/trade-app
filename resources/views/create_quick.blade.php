@@ -78,6 +78,9 @@
 
                     <input type="radio" id="sell" name="operation" value="Sell" required>
                     <label for="sell">Sell</label>
+
+                    <input type="radio" id="idk" name="operation" value="idk" required>
+                    <label for="idk">idk</label>
                 </td>
             </tr>
           
@@ -86,6 +89,14 @@
                 <tr>
                     <td><label for="why_before">Why Before</label></td>
                     <td><input type="text" name="why_before"></td>
+                </tr>
+                <tr>
+                    <td><label for="entryprice">Entry Price</label></td>
+                    <td><input type="integer" name="entryprice"></td>
+                </tr>
+                <tr>
+                    <td><label for="target">Target Price</label></td>
+                    <td><input type="text" name="target"></td>
                 </tr>
             <tr>
                 <td colspan="2" class="result">

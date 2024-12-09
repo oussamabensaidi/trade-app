@@ -65,8 +65,15 @@
             @if ($q->result!=null)
             <tr>
                 <td>{{ $q->assetName }}</td>
-                <td style="color: {{ $q->operation == 'Buy' ? 'green' : 'red' }};">
-                    {{ $q->operation }}
+                <td style="color: 
+                @if($q->operation == 'Buy') 
+                    green 
+                @elseif($q->operation == 'Sell') 
+                    red 
+                @else 
+                    blue 
+                @endif;"> {{ $q->operation }}
+            </td>                   
                 </td>
                 <td>{{ $q->why_before }}</td>
                 <td>{{ $q->why_after }}</td>

@@ -112,6 +112,7 @@
             @endforeach
         </ul>
     </div>
+
 @endif
                     @foreach ($tasks as $task)
                     @if ($task->deleted == 0)
@@ -236,11 +237,11 @@
                 
             </form> --}}
             <div class="d-flex align-items-start mb-3 flex-row grid gap-0 column-gap-3">
-                <button type="button" class="btn btn-primary "> <a class="text-decoration-none text-light" href="{{route('createTask')}}">Create an advanced task</a></button>
+                <button type="button" class="btn btn-primary "> <a class="text-decoration-none text-light" href="{{route('createTask')}}">Create a task</a></button>
 
                 <button type="button" class="btn btn-primary "> <a class="text-decoration-none text-light" href="{{route('alltasks')}}">All the tasks</a></button>
 
-                <button type="button" class="btn btn-primary "><a  class="text-decoration-none text-light"href="{{ route('history') }}">History</a></button>
+                <button type="button" class="btn btn-primary "><a  class="text-decoration-none text-light"href="{{ route('history') }}">Todolist History</a></button>
             </div>
         </div>
         <script>
@@ -388,5 +389,8 @@ function DeleteTask() {
         </div>
     </div>
 </div>
+
+
+
 </body>
 </html>                                                                                             

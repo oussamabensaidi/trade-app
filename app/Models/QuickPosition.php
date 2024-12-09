@@ -14,7 +14,14 @@ class QuickPosition extends Model
         'operation',
         'why_before',
         'why_after',
+        'price',
+        'target',
+        'livenotes',
         'profit',
         'result',
     ];
+    public function trade()
+    {
+        return $this->belongsTo(Trade::class);
+    }
 }

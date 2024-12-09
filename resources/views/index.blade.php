@@ -232,12 +232,20 @@ if(day == 0 || day == 6 ){
             @if ($q->result===null)
             <tr>
                 <td>{{ $q->assetName }}</td>
-                <td style="color: {{ $q->operation == 'Buy' ? 'green' : 'red' }};">
-                    {{ $q->operation }}
-                </td>
+                <td style="color: 
+                @if($q->operation == 'Buy') 
+                    green 
+                @elseif($q->operation == 'Sell') 
+                    red 
+                @else 
+                    blue 
+                @endif;"> {{ $q->operation }}
+            </td> 
                 <td>{{ $q->why_before }}</td>
                 <td><a class="btn btn-outline-primary" href="{{route('show',$q->trade_id)}}">check parent analysis</a>
+                <a class="btn btn-outline-primary" href="{{route('showquick',$q->id)}}">see</a>
                 <a class="btn btn-outline-primary" href="{{route('complete_quick_page',$q->id)}}">complete</a>
+                <a class="btn btn-outline-primary" href="{{route('livenotes_page',$q->id)}}">Live Notes</a>
                 <form action="{{ route('destroy', $q->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this item?');">
                     @method('DELETE')
                     @csrf

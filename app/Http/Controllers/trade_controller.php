@@ -12,23 +12,28 @@ use Illuminate\Support\Str;
 
 class trade_controller extends Controller
 {
-    public function index()
-    {
-        $quick = QuickPosition::all();
-        $analysis = trade::all();
-        return view('index', compact('analysis','quick'));
-    }
-    public function completed()
-    {
-        $analysis = trade::orderBy('id', 'desc')->get();
-        return view('completed', compact('analysis'));
-    }
+public function index()
+{
+    $quick = QuickPosition::all();
+    $analysis = trade::all();
+    return view('index', compact('analysis','quick'));
+}
+public function completed()
+{
+    $analysis = trade::orderBy('id', 'desc')->get();
+    return view('completed', compact('analysis'));
+}
 
-    public function show($id) {
-        $trade = trade::findOrFail($id);
-        return view('show', ['trade' => $trade]);
-    }
+public function show($id) {
+    $trade = trade::findOrFail($id);
+    return view('show', ['trade' => $trade]);
+}
+public function showquick($id){
 
+    $quick = QuickPosition::findOrFail($id);
+    $trade = $quick->trade;
+    return view('showquick', compact('quick','trade'));
+}
 
 public function create(){
 return view ('create');
@@ -50,6 +55,7 @@ public function complete_quick_page($id){
 
 
 public function inserquickposition(Request $request){
+    // return dd($request->entryprice);
     QuickPosition::create([
         'trade_id' => $request->trade_id,
         'assetName' => $request->assetName,
@@ -57,6 +63,8 @@ public function inserquickposition(Request $request){
         'why_before' => $request->why_before,
         'why_after' => $request->why_after,
         'profit' => $request->profit,
+        'target' => $request->target,
+        'price' => $request->entryprice,
         'result' => $request->result,
     ]);
     return redirect()->route('index')->with('success', 'Quick Position created successfully.');
@@ -77,6 +85,27 @@ public function complete_quick(Request $request, $id)
 
     return redirect()->route('index')->with('success', 'Quick completed updated successfully.');
 }
+public function livenotes_page($id){
+
+    $quickPosition = QuickPosition::findOrFail($id);
+    return view ('livenotes_page',['quickPosition'=>$quickPosition]);
+}
+public function livenotes(Request $request, $id)
+{
+    $request->validate([
+        'livenotes' => 'required|string|max:1000', // Adjust as needed
+    ]);
+    $quickPosition = QuickPosition::findOrFail($id);
+    $quickPosition->update([
+        'livenotes' => $request->livenotes,
+    ]);
+    return redirect()->route('livenotes_page',['id'=>$quickPosition->id])->with('success', 'Live Notes Updated Sccessfully.');
+}
+
+
+
+
+
 public function destroy($id)
 {
     $quick = QuickPosition::findOrFail($id);

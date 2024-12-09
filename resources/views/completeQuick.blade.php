@@ -78,6 +78,9 @@
             
                     <input type="radio" id="sell" name="operation" value="Sell" required {{ $quick->operation == 'Sell' ? 'checked' : '' }}>
                     <label for="sell">Sell</label>
+
+                    <input type="radio" id="idk" name="operation" value="idk" required {{ $quick->operation == 'idk' ? 'checked' : '' }}>
+                    <label for="idk">idk</label>
                 </td>
             </tr>
             
@@ -105,6 +108,8 @@
 
                     <input type="radio" id="failed" name="result" value="failed" >
                     <label for="failed">failed</label>
+                    <input type="radio" id="didnotenter" name="result" value="did_not_enter" >
+                    <label for="didnotenter">did not enter</label>
                 </td>
             </tr>
 

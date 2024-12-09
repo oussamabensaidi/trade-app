@@ -20,6 +20,9 @@ Route::put('/update_position/{id}', [trade_controller::class, 'update_position']
 Route::put('/update_whole/{id}', [trade_controller::class, 'update_whole'])->name('update_whole');
 Route::get('/show/{id}', [trade_controller::class, 'show'])->name('show');
 Route::delete('/quick/{id}', [trade_controller::class, 'destroy'])->name('destroy');
+Route::put('/livenotes/{id}', [trade_controller::class, 'livenotes'])->name('livenotes');
+Route::get('/livenotes_page/{id}', [trade_controller::class, 'livenotes_page'])->name('livenotes_page');
+Route::get ('/showquick/{id}',[trade_controller::class, 'showquick'])->name('showquick');
 
 
 Route::get('/todolist', [todolistcontroller::class, 'index'])->name('todolist');
@@ -31,6 +34,7 @@ Route::post('/taskinsert', [todolistcontroller::class, 'taskinsert'])->name('tas
 Route::post('/TaskCreation', [todolistcontroller::class, 'TaskCreation'])->name('TaskCreation');
 Route::put('/TaskUpdate/{id}', [todolistcontroller::class, 'TaskUpdate'])->name('TaskUpdate');
 Route::delete('/tasks/{id}', [todolistcontroller::class, 'destroy'])->name('tasks.destroy');
+Route::delete('/todolist_delete/{id}', [todolistcontroller::class, 'todolist_delete'])->name('todolist_delete');
 Route::get ('/createTask',[todolistcontroller::class, 'createTask'])->name('createTask');
 Route::get ('/editTask/{id}',[todolistcontroller::class, 'editTask'])->name('editTask');
 Route::get ('/archeive',[todolistcontroller::class, 'archeive'])->name('archeive');

@@ -67,7 +67,8 @@
         <table>
             <tr>
                 <td><label for="ticker_name">Ticker Name:</label></td>
-                <td><input type="text" id="ticker_name" name="ticker_name" value="{{ old('ticker_name', $position->ticker_name) }}"></td>
+                <td><input type="text" id="ticker_name" name="ticker_name" value="{{ old('ticker_name', $position->asset ? $position->asset->name : 'noassetname') }}"
+                    ></td>
             </tr>
             <tr>
                 <td><label for="ticker_name">Previous resault:</label></td>
@@ -93,8 +94,12 @@
                 <td>
                     <input type="radio" id="yes" name="succses" value="VALIDE">
                     <label for="yes">valid</label>
+                    <input type="radio" id="no" name="succses" value="closev">
+                    <label for="no">Close But Valid</label>
                     <input type="radio" id="no" name="succses" value="failed">
                     <label for="no">fail</label>
+                    <input type="radio" id="no" name="succses" value="closeF">
+                    <label for="no">Close But Fail</label>
                 </td>
             </tr>
             <tr>

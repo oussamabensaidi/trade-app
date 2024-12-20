@@ -213,12 +213,32 @@ ${noCount} .`; // Dash icon
 
     <div>{{ $trade->major_notes ?? 'null'}}</div>
 
-        <div>Success</div>
-        @if ($trade->succses == null)
-        <a class="btn btn-outline-primary" href="{{route('complete',$trade->id)}}" style="color: white; text-decoration: none; background-color: #007bff; padding: 10px 20px; border-radius: 5px; display: inline-block;">click to complete</a> 
-@else
-        <div>{{ $trade->succses }}</div>
+    <div>Success</div>
+    @if ($trade->succses == null)
+        <a class="btn btn-outline-primary" href="{{ route('complete', $trade->id) }}" 
+           style="color: white; text-decoration: none; background-color: #007bff; padding: 10px 20px; border-radius: 5px; display: inline-block;">
+           click to complete
+        </a>
+    @else
+        @php
+            // Mapping success values to full names and colors
+            $statusMapping = [
+                'VALIDE' => ['label' => 'Valid', 'color' => 'green'],
+                'closev' => ['label' => 'Close But Valid', 'color' => 'yellow'],
+                'failed' => ['label' => 'Fail', 'color' => 'red'],
+                'closeF' => ['label' => 'Close But Fail', 'color' => 'orange'],
+            ];
+    
+            $status = $statusMapping[$trade->succses] ?? null;
+        @endphp
+    
+        @if ($status)
+            <div style="color: {{ $status['color'] }};">{{ $status['label'] }}</div>
+        @else
+            <div>{{ $trade->succses }}</div>
         @endif
+    @endif
+    
 
 
         <div>Profit</div>

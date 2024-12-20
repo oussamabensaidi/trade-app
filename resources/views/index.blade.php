@@ -130,7 +130,7 @@ if(day == 0 || day == 6 ){
 @if ($item->succses===null)
 
         <tr>
-            <td>{{ $item->ticker_name }}</td>
+            <td>{{ $item->asset?->name ?? 'No Asset' }}</td>
             
             
             <td>

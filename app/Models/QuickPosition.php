@@ -10,7 +10,7 @@ class QuickPosition extends Model
     use HasFactory;
     protected $fillable = [
         'trade_id', 
-        'assetName',
+        'asset_id',
         'operation',
         'why_before',
         'why_after',
@@ -23,5 +23,9 @@ class QuickPosition extends Model
     public function trade()
     {
         return $this->belongsTo(Trade::class);
+    }
+    public function asset()
+    {
+        return $this->belongsTo(Asset::class);
     }
 }

@@ -65,9 +65,13 @@
         @method('POST')
         @csrf
         <table>
+            
             <tr>
                 <td><label for="ticker_name">Ticker Name:</label></td>
-                <td><input type="text" id="ticker_name" name="assetName" value="{{  $trade->ticker_name }}"></td>
+                <td>
+                    {{  $trade->asset->name }}
+                
+                </td>
                 <input type="hidden" name="trade_id" value="{{ $trade->id }}">
             </tr>
             <tr>
@@ -103,6 +107,32 @@
                     <button type="submit">Submit</button>
                 </td>
             </tr>
+            <tr><td colspan="2">
+                @foreach ($money as $m)
+                    
+                <div style="padding: 15px; border: 3px solid #4CAF50; border-radius: 12px; background: linear-gradient(to right, #f9f9f9, #e8f5e9); color: #333; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+                    <h4 style="color: #388E3C; font-weight: bold; font-family: 'Arial', sans-serif;">📈 Strategy Insights</h4>
+                    <p style="font-size: 16px; line-height: 1.6; font-family: 'Arial', sans-serif;">
+                        Strategy <span style="color: #1976D2; font-weight: bold;">#{{ $m->id }}</span> is operating with a risk level of 
+                        <span style="color: #FB8C00; font-weight: bold;">{{ $m->risk_percentage }}%</span> of the current balance. <br>
+                        The maximum drawdown permissible is set at 
+                        <span style="color: #D32F2F; font-weight: bold;">{{ number_format($m->max_drawdown, 2) }}</span>.
+                    </p>
+                    <ul style="margin: 10px 0; padding-left: 20px; font-size: 15px; color: #555;">
+                        <li><strong>Initial Balance:</strong> <span style="color: #0288D1;">{{ number_format($m->initial_balance, 2) }}</span></li>
+                        <li><strong>Current Balance:</strong> <span style="color: #0288D1;">{{ number_format($m->balance, 2) }}</span></li>
+                        <li><strong>Target:</strong> <span style="color: #7B1FA2;">{{ number_format($m->target, 2) }}</span></li>
+                        <li><strong>Leverage:</strong> <span style="color: #689F38;">{{ $m->leverage }}x</span></li>
+                        <li><strong>Risk/Reward Ratio:</strong> <span style="color: #FF5722;">1:{{ $m->risk_ratio }}</span></li>
+                    </ul>
+                    <p style="margin-top: 15px; font-size: 14px; color: #666;">
+                        ⚠️ Ensure the strategy maintains balance stability and adheres to the risk tolerance levels to optimize performance and minimize potential losses.
+                    </p>
+                </div>
+                
+                @endforeach
+                
+            </td></tr>
         </table>
     </form>
 

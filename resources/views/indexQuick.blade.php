@@ -64,7 +64,7 @@
             @foreach ($quick as $q)
             @if ($q->result!=null)
             <tr>
-                <td>{{ $q->assetName }}</td>
+                <td><a href="{{route('showquick',['id'=>$q->id])}}">{{ $q->asset->name }}</a></td>
                 <td style="color: 
                 @if($q->operation == 'Buy') 
                     green 

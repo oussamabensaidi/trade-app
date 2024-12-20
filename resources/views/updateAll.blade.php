@@ -66,7 +66,7 @@
         @csrf
         @method('PUT')
         <table>
-            <tr>
+            {{-- <tr>
                 <td><label for="ticker_name">Ticker Name:</label></td>
                 <td><input type="text" id="ticker_name" name="ticker_name" value="{{ old('ticker_name', $position->ticker_name) }}"></td>
             </tr>
@@ -81,7 +81,21 @@
                     </select>
                 </td>
             </tr>
-            
+             --}}
+              <tr>
+                <td>asset:</td>
+                <td>
+                    <select name="asset_id" id="" class="form-select">
+                        @foreach ($asset as $ass)
+                            <option value="{{$ass->id}}" {{ old('asset_id',$ass->id) == $ass->id ? 'selected' : '' }}>
+                                {{$ass->name}}
+                            </option>
+                        @endforeach
+                    </select>
+                    @if ($errors->has('asset_id'))
+                    <div class="text-danger">{{ $errors->first('asset_id') }}</div>
+                @endif  
+            </tr>
             
        
 
@@ -93,7 +107,9 @@
                     <input type="radio" id="dow_day_down" name="dow_day" value="down" {{ old('dow_day', $position->dow_day ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="dow_day_down">Down</label>
                     <input type="radio" id="dow_day_no" name="dow_day" value="no" {{ old('dow_day', $position->dow_day ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="dow_day_no">No</label><br>
+                    <label for="dow_day_no">No</label>
+                    <input type="radio" id="dow_day_idk" name="dow_day" value="idk" {{ old('dow_day', $position->dow_day ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="dow_day_idk">idk</label><br>
                     <label for="dow_day_note"> Any notes?</label>
                     <input type="text" name="dow_day_note" value="{{ old('dow_day_note', $position->dow_day_note ?? '') }}">
                 </td>
@@ -107,7 +123,9 @@
                     <input type="radio" id="dow_4h_down" name="dow_4h" value="down" {{ old('dow_4h', $position->dow_4h ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="dow_4h_down">Down</label>
                     <input type="radio" id="dow_4h_no" name="dow_4h" value="no" {{ old('dow_4h', $position->dow_4h ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="dow_4h_no">No</label><br>
+                    <label for="dow_4h_no">No</label>
+                    <input type="radio" id="dow_4h_idk" name="dow_4h" value="idk" {{ old('dow_4h', $position->dow_4h ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="dow_4h_idk">idk</label><br>
                     <label for="dow_4h_note"> Any notes?</label>
                     <input type="text" name="dow_4h_note" value="{{ old('dow_4h_note', $position->dow_4h_note ?? '') }}">
                 </td>
@@ -120,7 +138,9 @@
                     <input type="radio" id="dow_1h_down" name="dow_1h" value="down" {{ old('dow_1h', $position->dow_1h ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="dow_1h_down">Down</label>
                     <input type="radio" id="dow_1h_no" name="dow_1h" value="no" {{ old('dow_1h', $position->dow_1h ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="dow_1h_no">No</label><br>
+                    <label for="dow_1h_no">No</label>
+                    <input type="radio" id="dow_1h_idk" name="dow_1h" value="idk" {{ old('dow_1h', $position->dow_1h ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="dow_1h_idk">idk</label><br>
                     <label for="dow_1h_note"> Any notes?</label>
                     <input type="text" name="dow_1h_note" value="{{ old('dow_1h_note', $position->dow_1h_note ?? '') }}">
                 </td>
@@ -135,7 +155,9 @@
                     <input type="radio" id="moving_average_day_down" name="moving_average_day" value="down" {{ old('moving_average_day', $position->moving_average_day ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="moving_average_day_down">Down</label>
                     <input type="radio" id="moving_average_day_no" name="moving_average_day" value="no" {{ old('moving_average_day', $position->moving_average_day ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="moving_average_day_no">No</label><br>
+                    <label for="moving_average_day_no">No</label>
+                    <input type="radio" id="moving_average_day_idk" name="moving_average_day" value="idk" {{ old('moving_average_day', $position->moving_average_day ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="moving_average_day_idk">idk</label><br>
                     <label for="moving_average_day_note"> Any notes?</label>
                     <input type="text" name="moving_average_day_note" value="{{ old('moving_average_day_note', $position->moving_average_day_note ?? '') }}">
                 </td>
@@ -149,7 +171,9 @@
                     <input type="radio" id="moving_average_4h_down" name="moving_average_4h" value="down" {{ old('moving_average_4h', $position->moving_average_4h ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="moving_average_4h_down">Down</label>
                     <input type="radio" id="moving_average_4h_no" name="moving_average_4h" value="no" {{ old('moving_average_4h', $position->moving_average_4h ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="moving_average_4h_no">No</label><br>
+                    <label for="moving_average_4h_no">No</label>
+                    <input type="radio" id="moving_average_4h_idk" name="moving_average_4h" value="idk" {{ old('moving_average_4h', $position->moving_average_4h ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="moving_average_4h_idk">idk</label><br>
                     <label for="moving_average_4h_note"> Any notes?</label>
                     <input type="text" name="moving_average_4h_note" value="{{ old('moving_average_4h_note', $position->moving_average_4h_note ?? '') }}">
                 </td>
@@ -162,7 +186,9 @@
                     <input type="radio" id="moving_average_1h_down" name="moving_average_1h" value="down" {{ old('moving_average_1h', $position->moving_average_1h ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="moving_average_1h_down">Down</label>
                     <input type="radio" id="moving_average_1h_no" name="moving_average_1h" value="no" {{ old('moving_average_1h', $position->moving_average_1h ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="moving_average_1h_no">No</label><br>
+                    <label for="moving_average_1h_no">No</label>
+                    <input type="radio" id="moving_average_1h_idk" name="moving_average_1h" value="idk" {{ old('moving_average_1h', $position->moving_average_1h ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="moving_average_1h_idk">idk</label><br>
                     <label for="moving_average_1h_note"> Any notes?</label>
                     <input type="text" name="moving_average_1h_note" value="{{ old('moving_average_1h_note', $position->moving_average_1h_note ?? '') }}">
                 </td>
@@ -177,7 +203,9 @@
                     <input type="radio" id="macd_day_down" name="macd_day" value="down" {{ old('macd_day', $position->macd_day ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="macd_day_down">Down</label>
                     <input type="radio" id="macd_day_no" name="macd_day" value="no" {{ old('macd_day', $position->macd_day ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="macd_day_no">No</label><br>
+                    <label for="macd_day_no">No</label>
+                    <input type="radio" id="macd_day_idk" name="macd_day" value="idk" {{ old('macd_day', $position->macd_day ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="macd_day_idk">idk</label><br>
                     <label for="macd_day_note"> Any notes?</label>
                     <input type="text" name="macd_day_note" value="{{ old('macd_day_note', $position->macd_day_note ?? '') }}">
                 </td>
@@ -191,7 +219,9 @@
                     <input type="radio" id="macd_4h_down" name="macd_4h" value="down" {{ old('macd_4h', $position->macd_4h ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="macd_4h_down">Down</label>
                     <input type="radio" id="macd_4h_no" name="macd_4h" value="no" {{ old('macd_4h', $position->macd_4h ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="macd_4h_no">No</label><br>
+                    <label for="macd_4h_no">No</label>
+                    <input type="radio" id="macd_4h_idk" name="macd_4h" value="idk" {{ old('macd_4h', $position->macd_4h ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="macd_4h_idk">idk</label><br>
                     <label for="macd_4h_note"> Any notes?</label>
                     <input type="text" name="macd_4h_note" value="{{ old('macd_4h_note', $position->macd_4h_note ?? '') }}">
                 </td>
@@ -204,7 +234,9 @@
                     <input type="radio" id="macd_1h_down" name="macd_1h" value="down" {{ old('macd_1h', $position->macd_1h ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="macd_1h_down">Down</label>
                     <input type="radio" id="macd_1h_no" name="macd_1h" value="no" {{ old('macd_1h', $position->macd_1h ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="macd_1h_no">No</label><br>
+                    <label for="macd_1h_no">No</label>
+                    <input type="radio" id="macd_1h_idk" name="macd_1h" value="idk" {{ old('macd_1h', $position->macd_1h ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="macd_1h_idk">idk</label><br>
                     <label for="macd_1h_note"> Any notes?</label>
                     <input type="text" name="macd_1h_note" value="{{ old('macd_1h_note', $position->macd_1h_note ?? '') }}">
                 </td>
@@ -219,7 +251,9 @@
                     <input type="radio" id="rsi_day_down" name="rsi_day" value="down" {{ old('rsi_day', $position->rsi_day ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="rsi_day_down">Down</label>
                     <input type="radio" id="rsi_day_no" name="rsi_day" value="no" {{ old('rsi_day', $position->rsi_day ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="rsi_day_no">No</label><br>
+                    <label for="rsi_day_no">No</label>
+                    <input type="radio" id="rsi_day_idk" name="rsi_day" value="idk" {{ old('rsi_day', $position->rsi_day ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="rsi_day_idk">idk</label><br>
                     <label for="rsi_day_note"> Any notes?</label>
                     <input type="text" name="rsi_day_note" value="{{ old('rsi_day_note', $position->rsi_day_note ?? '') }}">
                 </td>
@@ -233,7 +267,9 @@
                     <input type="radio" id="rsi_4h_down" name="rsi_4h" value="down" {{ old('rsi_4h', $position->rsi_4h ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="rsi_4h_down">Down</label>
                     <input type="radio" id="rsi_4h_no" name="rsi_4h" value="no" {{ old('rsi_4h', $position->rsi_4h ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="rsi_4h_no">No</label><br>
+                    <label for="rsi_4h_no">No</label>
+                    <input type="radio" id="rsi_4h_idk" name="rsi_4h" value="idk" {{ old('rsi_4h', $position->rsi_4h ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="rsi_4h_idk">idk</label><br>
                     <label for="rsi_4h_note"> Any notes?</label>
                     <input type="text" name="rsi_4h_note" value="{{ old('rsi_4h_note', $position->rsi_4h_note ?? '') }}">
                 </td>
@@ -247,7 +283,9 @@
                     <input type="radio" id="rsi_1h_down" name="rsi_1h" value="down" {{ old('rsi_1h', $position->rsi_1h ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="rsi_1h_down">Down</label>
                     <input type="radio" id="rsi_1h_no" name="rsi_1h" value="no" {{ old('rsi_1h', $position->rsi_1h ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="rsi_1h_no">No</label><br>
+                    <label for="rsi_1h_no">No</label>
+                    <input type="radio" id="rsi_1h_idk" name="rsi_1h" value="idk" {{ old('rsi_1h', $position->rsi_1h ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="rsi_1h_idk">idk</label><br>
                     <label for="rsi_1h_note"> Any notes?</label>
                     <input type="text" name="rsi_1h_note" value="{{ old('rsi_1h_note', $position->rsi_1h_note ?? '') }}">
                 </td>
@@ -261,7 +299,9 @@
                     <input type="radio" id="fibo_down" name="fibo" value="down" {{ old('fibo', $position->fibo ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="fibo_down">Down</label>
                     <input type="radio" id="fibo_no" name="fibo" value="no" {{ old('fibo', $position->fibo ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="fibo_no">No</label><br>
+                    <label for="fibo_no">No</label>
+                    <input type="radio" id="fibo_idk" name="fibo" value="idk" {{ old('fibo', $position->fibo ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="fibo_idk">idk</label><br>
                     <label for="fibo_note"> Any notes?</label>
                     <input type="text" name="fibo_note" value="{{ old('fibo_note', $position->fibo_note ?? '') }}">
                 </td>
@@ -275,7 +315,9 @@
                     <input type="radio" id="gann_down" name="gann" value="down" {{ old('gann', $position->gann ?? '') == 'down' ? 'checked' : '' }} onchange="toggleRowColor(this)">
                     <label for="gann_down">Down</label>
                     <input type="radio" id="gann_no" name="gann" value="no" {{ old('gann', $position->gann ?? '') == 'no' ? 'checked' : '' }} onchange="toggleRowColor(this)">
-                    <label for="gann_no">No</label><br>
+                    <label for="gann_no">No</label>
+                    <input type="radio" id="gann_idk" name="gann" value="idk" {{ old('gann', $position->gann ?? '') == 'idk' ? 'checked' : '' }} onchange="toggleRowColor(this)">
+                    <label for="gann_idk">idk</label><br>
                     <label for="gann_note"> Any notes?</label>
                     <input type="text" name="gann_note" value="{{ old('gann_note', $position->gann_note ?? '') }}">
                 </td>
@@ -356,6 +398,7 @@
                         let upCount = 0;
                         let downCount = 0;
                         let noCount = 0;
+                        let idkCount = 15;
             
                         const options = document.querySelectorAll('input[type="radio"]:checked');
                         
@@ -422,13 +465,37 @@
                                         return noCount += 0.5
                                     }
                                     noCount++;
+                                }else if (option.value === 'idk') {
+                                    if (option.id == 'dow_4h_idk'){
+                                        return idkCount -= 2
+                                    }
+                                    if (option.id == 'dow_1h_idk'){
+                                        return idkCount -= 1.5
+                                    }
+                                    if (option.id == 'moving_average_4h_idk'){
+                                        return idkCount -= 2
+                                    }
+                                    if (option.id == 'macd_1h_idk'){
+                                        return idkCount -= 0.75
+                                    }
+                                    if (option.id == 'macd_day_idk'){
+                                        return idkCount -= 0.5
+                                    }
+                                    if (option.id == 'rsi_1h_idk'){
+                                        return idkCount -= 0.75
+                                    }
+                                    if (option.id == 'rsi_day_idk'){
+                                        return idkCount -= 0.5
+                                    }
+                                    idkCount--;
                                 }
                             }
+                            console.log('test')
                         });
-                        document.getElementById('upCount').textContent = 'Up: ' + upCount+'   /14';
-                        document.getElementById('downCount').textContent = 'Down: ' + downCount+'    /14';
-                        document.getElementById('noCount').textContent = 'No: ' + noCount+'    /14';
-                        document.getElementById('resault_inp').value ='Up: ' + upCount+'   /14 ---    ' + '   Down: ' + downCount+'    /14 ---   '+'    No: ' + noCount+'    /14  ';
+                        document.getElementById('upCount').textContent = 'Up: ' + upCount+'   /'+idkCount;
+                        document.getElementById('downCount').textContent = 'Down: ' + downCount+'   /'+idkCount;
+                        document.getElementById('noCount').textContent = 'No: ' + noCount+'   /'+idkCount;
+                        document.getElementById('resault_inp').value ='Up: ' + upCount+'   /'+idkCount+' ---    ' + '   Down: ' + downCount+'   /'+idkCount+' ---    '+'    No: ' + noCount+'   /'+idkCount;
                     }
                     const radioButtons = document.querySelectorAll('input[type="radio"]');
 

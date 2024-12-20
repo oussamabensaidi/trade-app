@@ -10,7 +10,6 @@ class trade extends Model
     use HasFactory;
 
     protected $fillable = [
-        'ticker_name',
         'dow_1h',
         'dow_1h_note',
         'dow_day',
@@ -42,8 +41,12 @@ class trade extends Model
         'result',
         'picture',
         'major_notes',
-        'asset_type',
         'post_notes',
-        'post_picture'
+        'post_picture',
+        'asset_id',
     ];
+    public function asset()
+    {
+        return $this->belongsTo(Asset::class);
+    }
 }

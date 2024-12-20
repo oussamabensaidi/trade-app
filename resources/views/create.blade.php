@@ -66,18 +66,19 @@
         @csrf
         <table>
             <tr>
-                <td><label for="ticker_name">Ticker Name:</label></td>
-                <td><input type="text" id="ticker_name" name="ticker_name"></td>
-            </tr>
-            <tr>
-                <td>Type of the asset:</td>
+                <td>asset:</td>
                 <td>
-                <select name="asset_type" id="" class="form-select" >
-                    <option value="futures">futures</option>
-                    <option value="commidities">commidities</option>
-                    <option value="forex">forex</option>
-                    <option value="stocks">stocks</option>
-                </select></td>
+                <select name="asset_id" id="" class="form-select" >
+                    <option value="" selected> select </option>
+@foreach ($asset as $ass)
+    <option value="{{$ass->id}}"> {{$ass->name}} </option>
+@endforeach
+                </select>
+                @if ($errors->has('asset_id'))
+                <div class="text-danger">{{ $errors->first('asset_id') }}</div>
+            @endif
+            </td>
+
             </tr>
 
            

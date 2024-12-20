@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\trade;
 use App\Models\QuickPosition;
+use App\Models\MoneyManagement;
+use App\Models\Asset;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Str;
 
@@ -36,7 +38,8 @@ public function showquick($id){
 }
 
 public function create(){
-return view ('create');
+    $asset = Asset::all();
+return view ('create',compact('asset'));
 }
 
 public function indexQuick(){
@@ -46,7 +49,8 @@ public function indexQuick(){
 
 public function create_quickPosition($id){
     $trade = trade::findOrFail($id);
-    return view('create_quick', ['trade' => $trade]);
+    $money = MoneyManagement::all();
+    return view('create_quick', ['trade' => $trade,'money'=>$money]);
 }
 public function complete_quick_page($id){
     $quick = QuickPosition::findOrFail($id);
@@ -55,10 +59,11 @@ public function complete_quick_page($id){
 
 
 public function inserquickposition(Request $request){
-    // return dd($request->entryprice);
+    $position = trade:: findOrFail($request->trade_id);
+    // return dd($position);
     QuickPosition::create([
         'trade_id' => $request->trade_id,
-        'assetName' => $request->assetName,
+        'asset_id' => $position->asset->id,
         'operation' => $request->operation,
         'why_before' => $request->why_before,
         'why_after' => $request->why_after,
@@ -73,9 +78,63 @@ public function inserquickposition(Request $request){
 public function complete_quick(Request $request, $id)
 {
     $quickPosition = QuickPosition::findOrFail($id);
+    $position = trade:: findOrFail($quickPosition->trade_id);
+    // return dd($quickPosition->trade_id);
+
+
+    $money_managements = MoneyManagement::all();
+    foreach ($money_managements as $money) {
+        $balance = (float)$money->balance;
+        $initial_balance = $money->initial_balance;
+        $profit = (float)$request->profit; // Convert profit (string) to a float
+
+        // Add profit to balance
+        $balance += $profit;
+
+        $risk_percentage = 5; // Default 5% risk
+        $risk_ratio = 2; // 2:1 risk/reward ratio
+        $leverage = 100; // 100:1 leverage
+        $max_drawdown = $initial_balance * 0.20; // 20% of the initial balance
+        $exposure = $initial_balance * 0.10; // 10% of the initial balance
+        $dollar = ($balance * $risk_percentage) / 100;
+        $target = $dollar * $risk_ratio;
+
+        $balance_multiple = floor($balance / $initial_balance);
+
+        // Scale parameters based on balance multiple
+        if ($balance_multiple >= 2) {
+            $risk_percentage = min(12, 5 + ($balance_multiple - 1) * 2);
+            $dolar = ($balance * $risk_percentage) / 100;
+            $risk_ratio = 1 *$balance_multiple;
+            $target = $dolar * $risk_ratio;
+            $target = min($target, $balance * 0.1);
+            $max_drawdown = $balance * 0.20 ;
+            $exposure = $balance * 0.10 ;
+        } elseif ($balance < $initial_balance) {
+            // Reduce parameters if the balance is less than the initial balance
+            $risk_percentage = 3;
+            $risk_ratio = 1;
+            $dollar = ($balance * $risk_percentage) / 100;
+            $target = $dollar * 0.5; // Adjust target accordingly
+            $leverage = 50; // Lower leverage
+            $max_drawdown = $balance * 0.15; // Reduce max drawdown
+            $exposure = $balance * 0.05; // Reduce exposure
+        }
+
+        $money->update([
+            'initial_balance' => $money->initial_balance,
+            'balance' => $balance,
+            'target' => $target,
+            'risk_percentage' => $risk_percentage,
+            'risk_ratio' => $risk_ratio,
+            'leverage' => $leverage,
+            'max_drawdown' => $max_drawdown,
+            'exposure' => $exposure,
+        ]);
+    }
     $quickPosition->update([
-        'trade_id' => $request->trade_id,
-        'assetName' => $request->assetName,
+        'trade_id' => $quickPosition->trade_id,
+        'asset_id' =>$position->asset->id,
         'operation' => $request->operation,
         'why_before' => $request->why_before,
         'why_after' => $request->why_after,
@@ -83,7 +142,42 @@ public function complete_quick(Request $request, $id)
         'result' => $request->result,
     ]);
 
+
+    $asset = $quickPosition->asset;
+
+if ($quickPosition->result == 'did_not_enter') {
     return redirect()->route('index')->with('success', 'Quick completed updated successfully.');
+} else {
+    // Increase usage times by 1
+    $asset->usetimes += 1;
+    $asset->save();
+
+    // Update win times based on the result
+    switch ($quickPosition->result) {
+        case 'valide':
+            $asset->wintimes += 1;
+            break;
+        case 'failed':
+            // No change to wintimes for 'failed'
+            break;
+    }
+
+    // Calculate the win percentage
+    $win_percentage = ($asset->wintimes / $asset->usetimes) * 100;
+    $asset->win_percentage = $win_percentage;
+
+
+
+
+
+    $asset->save();
+
+    return redirect()->route('index')->with('success', 'Quick completed updated successfully.');
+}
+
+
+
+
 }
 public function livenotes_page($id){
 
@@ -125,15 +219,20 @@ public function destroy($id)
 
 public function create_position(Request $req)
     {
+        $req->validate([
+            'asset_id' => 'required|exists:assets,id', // Ensures a valid asset_id is selected
+        ], [
+            'asset_id.required' => 'You must select an asset.',
+            'asset_id.exists' => 'The selected asset is invalid.',
+        ]);
     if ($req->hasFile('picture')) {
     $file = $req->file('picture');
     $filename = time() . '.' . $file->getClientOriginalExtension();
     $file->move(public_path('images'), $filename);
     $picturePath = 'images/' . $filename;
 }
-
     $analysis = new Trade([
-    'ticker_name' => $req->ticker_name,
+    'asset_id' => $req->asset_id,
     'dow_1h' => $req->dow_1h,
     'dow_1h_note' => $req->dow_1h_note,
     'dow_day' => $req->dow_day,
@@ -164,7 +263,6 @@ public function create_position(Request $req)
     'gann' => $req->gann,
     'gann_note' => $req->gann_note,
     'major_notes' => $req->major_notes,
-    'asset_type' => $req->asset_type,
     'result' => $req->result,
     'picture' => $picturePath
 ]);
@@ -185,7 +283,8 @@ return redirect()->route('index')->with('success', 'position created successfull
     }
     public function updateAll($id) {
         $position = trade::findOrFail($id);
-        return view('updateAll',['position'=>$position]);
+        $asset = Asset::all();
+        return view('updateAll',['position'=>$position,'asset'=>$asset]);
     }
     public function update_position(Request $req, $id){
         $position = trade::findOrFail($id);
@@ -199,14 +298,105 @@ return redirect()->route('index')->with('success', 'position created successfull
     $position->major_notes = $req->major_notes;
     $position->profit = $req->profit;
     $position->post_notes = $req->post_notes;
+
+    $asset = $position->asset; 
+    $asset->usetimes += 5; // Add 5 to the usage times
+    $asset->save();
+    
+    // Update win times and calculate percentage based on success
+    switch ($position->succses) {
+        case 'VALIDE':
+            $position->asset->wintimes += 5;
+            break;
+        case 'closev':
+            $position->asset->wintimes += 3;
+            break;
+        case 'closef':
+            $position->asset->wintimes += 1.5;
+            break;
+        case 'failed':
+            $position->asset->wintimes += 0;
+            break;
+    }
+    
+    // Calculate the win percentage
+    $win_percentage = ($position->asset->wintimes / $position->asset->usetimes) * 100;
+    $position->asset->win_percentage = $win_percentage;
+    $position->asset->save();
+
+
+
+
+
+
+
+    $money_managements = MoneyManagement::all();
+    foreach ($money_managements as $money) {
+        $balance = (float)$money->balance;
+        $initial_balance = $money->initial_balance;
+        $profit = (float)$req->profit; // Convert profit (string) to a float
+
+        // Add profit to balance
+        $balance += $profit;
+
+        $risk_percentage = 5; // Default 5% risk
+        $risk_ratio = 2; // 2:1 risk/reward ratio
+        $leverage = 100; // 100:1 leverage
+        $max_drawdown = $initial_balance * 0.20; // 20% of the initial balance
+        $exposure = $initial_balance * 0.10; // 10% of the initial balance
+        $dollar = ($balance * $risk_percentage) / 100;
+        $target = $dollar * $risk_ratio;
+
+        $balance_multiple = floor($balance / $initial_balance);
+
+        // Scale parameters based on balance multiple
+        if ($balance_multiple >= 2) {
+            $risk_percentage = min(12, 5 + ($balance_multiple - 1) * 2);
+            $dolar = ($balance * $risk_percentage) / 100;
+            $risk_ratio = 1 *$balance_multiple;
+            $target = $dolar * $risk_ratio;
+            $target = min($target, $balance * 0.1);
+            $max_drawdown = $balance * 0.25 ;
+            $exposure = $balance * 0.10 ;
+        } elseif ($balance < $initial_balance) {
+            // Reduce parameters if the balance is less than the initial balance
+            $risk_percentage = 3;
+            $risk_ratio = 1;
+            $dollar = ($balance * $risk_percentage) / 100;
+            $target = $dollar * 0.5; // Adjust target accordingly
+            $leverage = 50; // Lower leverage
+            $max_drawdown = $balance * 0.15; // Reduce max drawdown
+            $exposure = $balance * 0.05; // Reduce exposure
+        }
+
+        $money->update([
+            'initial_balance' => $money->initial_balance,
+            'balance' => $balance,
+            'target' => $target,
+            'risk_percentage' => $risk_percentage,
+            'risk_ratio' => $risk_ratio,
+            'leverage' => $leverage,
+            'max_drawdown' => $max_drawdown,
+            'exposure' => $exposure,
+        ]);
+    }
+
+
     $position->save();
     return redirect()->route('index')->with('success', 'Trade updated successfully.');
-}
-    public function update_whole(Request $request, $id){
+    }
+public function update_whole(Request $request, $id){
+        $request->validate([
+            'asset_id' => 'required|exists:assets,id', // Ensures a valid asset_id is selected
+        ], [
+            'asset_id.required' => 'You must select an asset.',
+            'asset_id.exists' => 'The selected asset is invalid.',
+        ]);
+
         $position = trade::findOrFail($id);
 
         // Update the position with request data
-        $position->ticker_name = $request->ticker_name;
+        $position->asset_id = $request->asset_id;
         $position->dow_1h = $request->dow_1h;
         $position->dow_1h_note = $request->dow_1h_note;
         $position->dow_day = $request->dow_day;
@@ -236,7 +426,6 @@ return redirect()->route('index')->with('success', 'position created successfull
         $position->gann = $request->gann;
         $position->gann_note = $request->gann_note;
         $position->major_notes = $request->major_notes;
-        $position->asset_type = $request->asset_type;
         $position->succses = $request->succses;
         $position->profit = $request->profit;
         $position->post_notes = $request->post_notes;

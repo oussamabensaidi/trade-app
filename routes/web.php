@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\trade_controller;
 use App\Http\Controllers\todolistcontroller;
+use App\Http\Controllers\assetcontroller;
+use App\Http\Controllers\challengecontroller;
+use App\Http\Controllers\indicatorscontroller;
+use App\Http\Controllers\moneymangmentcontroller;
 
 
 Route::get('/index', [trade_controller::class, 'index'])->name('index');
@@ -42,3 +46,23 @@ Route::put ('/archeivefunc/{id}',[todolistcontroller::class, 'archeivefunc'])->n
 
 
 
+Route::prefix('asset')->name('asset.')->group(function () {
+    Route::get('/', [AssetController::class, 'index'])->name('index');
+    Route::get('/create', [AssetController::class, 'create'])->name('create');
+    Route::post('/', [AssetController::class, 'store'])->name('store');
+    Route::get('/{asset}', [AssetController::class, 'show'])->name('show');
+    Route::get('/{asset}/edit', [AssetController::class, 'edit'])->name('edit');
+    Route::put('/{asset}', [AssetController::class, 'update'])->name('update');
+    Route::delete('/{asset}', [AssetController::class, 'destroy'])->name('destroy');
+});
+Route::prefix('money')->name('money.')->group(function () {
+    Route::get('/', [moneymangmentcontroller::class, 'index'])->name('index');
+    Route::get('/create', [moneymangmentcontroller::class, 'create'])->name('create');
+    Route::post('/', [moneymangmentcontroller::class, 'store'])->name('store');
+    Route::get('/{money}', [moneymangmentcontroller::class, 'show'])->name('show');
+    Route::get('/{money}/edit', [moneymangmentcontroller::class, 'edit'])->name('edit');
+    Route::put('/{money}', [moneymangmentcontroller::class, 'update'])->name('update');
+    Route::delete('/{money}', [moneymangmentcontroller::class, 'destroy'])->name('destroy');
+    Route::get('/complete/{money}', [moneymangmentcontroller::class, 'complete'])->name('complete');
+    Route::put('/complete_money/{money}', [moneymangmentcontroller::class, 'complete_money'])->name('complete_money');
+});

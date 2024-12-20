@@ -123,7 +123,7 @@ if(day == 0 || day == 6 ){
                         $lastDate = $date->format('F j, Y'); // Update the last date
                     @endphp
         @endif
-                    <td><a href="{{ route('show', $item->id) }}" class="text-decoration-none">{{ $item->ticker_name }}</a></td>
+                    <td><a href="{{ route('show', $item->id) }}" class="text-decoration-none">{{  $item->asset?->name ?? 'Before Asset Update' }}</a></td>
                     <td><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#e8eaed">
                         <path d="m612-292 56-56-148-148v-184h-80v216l172 172ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-400Zm0 320q133 0 226.5-93.5T800-480q0-133-93.5-226.5T480-800q-133 0-226.5 93.5T160-480q0 133 93.5 226.5T480-160Z" fill="#7BBEFE"/></svg>
                        <a href="{{ route('show', $item->id) }}" class="text-decoration-none">{{ \Carbon\Carbon::parse($item->created_at)->format('F j, Y \a\t g:i A') }}</a> 
@@ -195,16 +195,36 @@ if(day == 0 || day == 6 ){
 
 
 
-<td @if ($item->succses == 'VALIDE') style="background-color: green;"
-    
-@elseif($item->succses == 'failed')
-style="background-color: red;"
+<td @if ($item->succses == 'VALIDE') 
+    style="background-color: green;" 
+@elseif ($item->succses == 'failed') 
+    style="background-color: red;" 
+@elseif ($item->succses == 'closev') 
+    style="background-color: orange;" 
+@elseif ($item->succses == 'closef') 
+    style="background-color: gray;" 
 @endif>
-    {{ $item->succses }}<br>
-    {{ $item->profit }}$<br>
-{{-- <a class="btn btn-outline-primary" href="{{ route('show', $item->id) }}" style="color: white; text-decoration: none; background-color: #007bff; padding: 10px 20px; border-radius: 5px; display: inline-block;">See more details</a> --}}
-<a class="btn btn-outline-primary" href=" {{route('updateAll',$item->id) }} " style="color: white; text-decoration: none; background-color: #007bff; padding: 10px 20px; border-radius: 5px; display: inline-block;">update All elements</a> 
+
+
+{{-- Display a specific phrase for each status --}}
+@if ($item->succses == 'VALIDE')
+    <p>Success! Your Analysis was validated.</p>
+@elseif ($item->succses == 'failed')
+    <p>Analysis failed. Please check the details.</p>
+@elseif ($item->succses == 'closev')
+    <p>The Analysis was closed as valid.</p>
+@elseif ($item->succses == 'closef')
+    <p>The Analysis was closed as failed.</p>
+@endif
+
+{{ $item->profit }}$<br>
+<a class="btn btn-outline-primary" href="{{ route('updateAll', $item->id) }}" 
+   style="color: white; text-decoration: none; background-color: #007bff; 
+          padding: 10px 20px; border-radius: 5px; display: inline-block;">
+    Update All Elements
+</a>
 </td>
+
                 </tr>
                 
     

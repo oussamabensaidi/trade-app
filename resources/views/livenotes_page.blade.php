@@ -21,7 +21,7 @@
     <!-- Asset Name -->
     <div class="mb-3">
         <label for="assetName" class="form-label">Asset Name</label>
-        <p class="form-control-plaintext text-primary" id="assetName">{{ old('assetName', $quickPosition->assetName) }}</p>
+        <p class="form-control-plaintext text-primary" id="assetName">{{ old('assetName', $quickPosition->asset->name) }}</p>
     </div>
     
     <!-- Operation -->

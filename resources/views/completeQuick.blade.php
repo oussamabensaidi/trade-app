@@ -67,8 +67,11 @@
         <table>
             <tr>
                 <td><label for="ticker_name">Ticker Name:</label></td>
-                <td><input type="text" id="ticker_name" name="assetName" value="{{  $quick->assetName }}"></td>
-                <input type="hidden" name="trade_id" value="{{ $quick->trade_id }}">
+                <td>
+                    {{  $quick->asset ?$quick->asset->name:'no name'}}
+                
+                </td>
+                <input type="hidden" name="trade_id" value="{{ $quick->asset_id }}">
             </tr>
             <tr>
                 <td><label for="operation_type">Operation type:</label></td>

@@ -43,18 +43,27 @@ class todolistcontroller extends Controller
             [$x, $y] = explode('/', $task->perfect_done);
             $task->x = (int) $x; // Numerator
             $task->y = (int) $y; // Denominator
+            
+            // Calculate the ratio x/y, or 0 if y is 0
+            $task->ratio = ($task->y > 0) ? ($task->x / $task->y) : 0;
         } else {
-            $task->x = null; // Handle cases where perfect_done is null
+            $task->x = null;
             $task->y = null;
+            $task->ratio = 0;
         }
         return $task;
     });
 
-    
+// Sort by highest ratio for top 3 tasks
+$topTasks = $mostdonetasks->sortByDesc('ratio')->take(3);
 
-    $topTasks = $mostdonetasks->sortByDesc('x')->take(3);
-    $flopTasks = $mostdonetasks->sortBy('x')->take(3);
-    $oldestTasks = $tasks->sortBy('y')->take(3);
+// Sort by lowest ratio for flop 3 tasks (excluding top tasks)
+$flopTasks = $mostdonetasks->sortBy('ratio')
+    ->filter(function ($task) use ($topTasks) {
+        return !$topTasks->contains('id', $task->id);
+    })
+    ->take(3);
+    $oldestTasks = $mostdonetasks->sortByDesc('y')->take(3);
 
 
     return view('todolist.index', [
@@ -71,7 +80,7 @@ class todolistcontroller extends Controller
 
 
 function history(){
-    $todolist = ToDoList::all();
+    $todolist = ToDoList::orderBy('created_at', 'desc')->get();
     return view('todolist.history', ['todolist'=>$todolist]);
 }
 

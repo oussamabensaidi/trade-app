@@ -91,18 +91,6 @@
                 <td><label for="why_before">Why Before</label></td>
                 <td><input type="text" name="why_before" value="{{ $quick->why_before }}"></td>
             </tr>
-            
-                <tr>
-                    <td><label for="why_after">Why After</label></td>
-                    <td><input type="text" name="why_after"></td>
-                </tr>
-                <tr>
-                    <td><label for="profit">Profit</label></td>
-                    <td><input type="number" name="profit"></td>
-                </tr>
-        
-            
-
             <tr>
                 <td><label for="operation_type">result type:</label></td>
                 <td>
@@ -115,6 +103,18 @@
                     <label for="didnotenter">did not enter</label>
                 </td>
             </tr>
+            
+                <tr>
+                    <td><label for="why_after">Why After</label></td>
+                    <td><input type="text" name="why_after"></td>
+                </tr>
+                <tr>
+                    <td><label for="profit">Profit</label></td>
+                    <td><input type="number" name="profit"></td>
+                </tr>
+        
+            
+
 
 
             <tr>

@@ -4,6 +4,7 @@
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h1>Assets</h1>
+        <a href="{{ route('index') }}" class="btn btn-primary">Analys index</a>
         <a href="{{ route('asset.create') }}" class="btn btn-primary">Create Asset</a>
     </div>
 

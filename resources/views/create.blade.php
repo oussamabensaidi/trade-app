@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-    <title>Create Analysis</title>
+    <title> Create Analysis</title>
 </head>
 <body>
     <style>
@@ -61,13 +61,13 @@
     </style>
 </head>
 <body>
-    <h1>Create Analysis</h1>
+    <h1><u>Create Analysis</u> </h1>
     <form class="form-container" action="{{ route('create_position') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <table>
             <tr>
                 <td>asset:</td>
-                <td>
+                <td colspan="3">
                 <select name="asset_id" id="" class="form-select" >
                     <option value="" selected> select </option>
 @foreach ($asset as $ass)
@@ -82,9 +82,14 @@
             </tr>
 
            
-
+<tr>
+    <td>name</td>
+    <td>day</td>
+    <td>4h</td>
+    <td>1h</td>
+</tr>
             <tr class="white">
-                <td>Dow Day:</td>
+                <td>Dow</td>
                 <td>
                     <input type="radio" id="dow_day_up" name="dow_day" value="up" onchange="toggleRowColor(this)">
                     <label for="dow_day_up">Up</label>
@@ -97,9 +102,6 @@
                     <label for="dow_day_note"> Any notes?</label>
                     <input type="text" name="dow_day_note">
                 </td>
-            </tr>
-            <tr class="white">
-                <td>Dow 4H:</td>
                 <td>
                     <input type="radio" id="dow_4h_up" name="dow_4h" value="up" onchange="toggleRowColor(this)">
                     <label for="dow_4h_up">Up</label>
@@ -112,9 +114,6 @@
                     <label for="_note"> Any notes?</label>
                     <input type="text" name="dow_4h_note">
                 </td>
-            </tr>
-            <tr class="white">
-                <td>Dow 1h:</td>
                 <td>
                     <input type="radio" id="dow_1h_up" name="dow_1h" value="up" onchange="toggleRowColor(this)">
                     <label for="dow_1h_up">Up</label>
@@ -131,7 +130,7 @@
             </tr>
             
             <tr class="white">
-                <td>moving average day:</td>
+                <td>moving average :</td>
                 <td>
                     <input type="radio" id="moving_average_day_up" name="moving_average_day" value="up" onchange="toggleRowColor(this)">
                     <label for="moving_average_day_up">Up</label>
@@ -144,9 +143,6 @@
                     <label for="_note"> Any notes?</label>
                     <input type="text" name="moving_average_day_note">
                 </td>
-            </tr>
-            <tr class="white">
-                <td>moving average 4h:</td>
                 <td>
                     <input type="radio" id="moving_average_4h_up" name="moving_average_4h" value="up" onchange="toggleRowColor(this)">
                     <label for="moving_average_4h_up">Up</label>
@@ -159,9 +155,6 @@
                     <label for="_note"> Any notes?</label>
                     <input type="text" name="moving_average_4h_note">
                 </td>
-            </tr>
-            <tr class="white">
-                <td>moving average 1h:</td>
                 <td>
                     <input type="radio" id="moving_average_1h_up" name="moving_average_1h" value="up" onchange="toggleRowColor(this)">
                     <label for="moving_average_1h_up">Up</label>
@@ -177,7 +170,7 @@
             </tr>
            
             <tr class="white">
-                <td>macd Day:</td>
+                <td>macd :</td>
                 <td>
                     <input type="radio" id="macd_day_up" name="macd_day" value="up" onchange="toggleRowColor(this)">
                     <label for="macd_day_up">Up</label>
@@ -190,9 +183,6 @@
                     <label for="_note"> Any notes?</label>
                     <input type="text" name="macd_day_note">
                 </td>
-            </tr>
-            <tr class="white">
-                <td>macd 4h:</td>
                 <td>
                     <input type="radio" id="macd_4h_up" name="macd_4h" value="up" onchange="toggleRowColor(this)">
                     <label for="macd_4h_up">Up</label>
@@ -204,10 +194,7 @@
                     <label for="macd_4h_idk">idk</label><br>
                     <label for="_note"> Any notes?</label>
                     <input type="text" name="macd_4h_note">
-                </td>
-            </tr>
-            <tr class="white">
-                <td>macd 1h:</td>
+                </td> 
                 <td>
                     <input type="radio" id="macd_1h_up" name="macd_1h" value="up" onchange="toggleRowColor(this)">
                     <label for="macd_1h_up">Up</label>
@@ -221,9 +208,8 @@
                     <input type="text" name="macd_1h_note">
                 </td>
             </tr>
-           
             <tr class="white">
-                <td>rsi day:</td>
+                <td>rsi :</td>
                 <td>
                     <input type="radio" id="rsi_day_up" name="rsi_day" value="up" onchange="toggleRowColor(this)">
                     <label for="rsi_day_up">Up</label>
@@ -236,9 +222,6 @@
                     <label for="_note"> Any notes?</label>
                     <input type="text" name="rsi_day_note">
                 </td>
-            </tr>
-            <tr class="white">
-                <td>Rsi 4h:</td>
                 <td>
                     <input type="radio" id="rsi_4h_up" name="rsi_4h" value="up" onchange="toggleRowColor(this)">
                     <label for="rsi_4h_up">Up</label>
@@ -251,9 +234,6 @@
                     <label for="_note"> Any notes?</label>
                     <input type="text" name="rsi_4h_note">
                 </td>
-            </tr>
-            <tr class="white">
-                <td>rsi 1h:</td>
                 <td>
                     <input type="radio" id="rsi_1h_up" name="rsi_1h" value="up" onchange="toggleRowColor(this)">
                     <label for="rsi_1h_up">Up</label>
@@ -267,12 +247,13 @@
                     <input type="text" name="rsi_1h_note">
                 </td>
             </tr>
-
-            
-
+            <tr class="white">
+                <td>time and price indicator :</td>
+                <td colspan="3"> :</td>
+            </tr>
             <tr class="white">
                 <td>Fibonacci:</td>
-                <td>
+                <td >
                     <input type="radio" id="fibo_up" name="fibo" value="up" onchange="toggleRowColor(this)">
                     <label for="fibo_up">Up</label>
                     <input type="radio" id="fibo_down" name="fibo" value="down" onchange="toggleRowColor(this)">
@@ -284,11 +265,8 @@
                     <label for="_note"> Any notes?</label>
                     <input type="text" name="fibo_note">
                 </td>
-            </tr>
-
-            <tr class="white">
                 <td>Gann:</td>
-                <td>
+                <td >
                     <input type="radio" id="gann_up" name="gann" value="up" onchange="toggleRowColor(this)">
                     <label for="gann_up">Up</label>
                     <input type="radio" id="gann_down" name="gann" value="down" onchange="toggleRowColor(this)">
@@ -301,9 +279,11 @@
                     <input type="text" name="gann_note">
                 </td>
             </tr>
+
+            
             <tr class="white">
                 <td>Major notes:</td>
-                <td>
+                <td colspan="3">
                     <label for="_note"> Any Major notes?</label>
                     <input type="text" name="major_notes">
                 </td>
@@ -311,13 +291,14 @@
 
             <tr>
                 <td>picture</td>
-                <td>
+                <td colspan="3">
                     <input type="file" name="picture">
                 </td>
             </tr>
 
             <tr>
-                <td colspan="2" class="result">
+                <td>Result :</td>
+                <td colspan="3" class="result">
                     <h3>Counts:</h3>
                     <p id="upCount">Up: 0</p>
                     <p id="downCount">Down: 0</p>
@@ -327,7 +308,8 @@
             </tr>
 
             <tr>
-                <td colspan="2" class="result">
+                <td>Submmition button</td>
+                <td colspan="3" class="result">
                     <button type="submit">Submit</button>
                 </td>
             </tr>

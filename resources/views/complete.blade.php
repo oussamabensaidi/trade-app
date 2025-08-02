@@ -80,7 +80,10 @@
             <tr>
                 <td>Previous picture</td>
                 <td>
-                    <img src="{{ asset(old('picture', $position->picture)) }}" alt="" style="width: 50%">
+                    <a href="{{ asset($position->picture) }}" target="_blank">
+                        <img src="{{ asset($position->picture) }}" alt="" style="width: 50%">
+                        </a>
+                    {{-- <img src="{{ asset(old('picture', $position->picture)) }}" alt="" style="width: 50%"> --}}
                 </td>
             </tr>
             <tr>

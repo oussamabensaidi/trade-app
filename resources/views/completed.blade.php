@@ -201,7 +201,7 @@ if(day == 0 || day == 6 ){
     style="background-color: red;" 
 @elseif ($item->succses == 'closev') 
     style="background-color: orange;" 
-@elseif ($item->succses == 'closef') 
+@elseif ($item->succses == 'closeF') 
     style="background-color: gray;" 
 @endif>
 
@@ -212,9 +212,9 @@ if(day == 0 || day == 6 ){
 @elseif ($item->succses == 'failed')
     <p>Analysis failed. Please check the details.</p>
 @elseif ($item->succses == 'closev')
-    <p>The Analysis was closed as valid.</p>
-@elseif ($item->succses == 'closef')
-    <p>The Analysis was closed as failed.</p>
+    <p>The Analysis was closed to valid.</p>
+@elseif ($item->succses == 'closeF')
+    <p>The Analysis was closed to failed.</p>
 @endif
 
 {{ $item->profit }}$<br>

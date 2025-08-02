@@ -34,6 +34,12 @@
   font-weight: 400;
   font-style: unset;
 }
+
+.highlight {
+    font-weight: bold;
+    color: #ff9900; /* Or any color you prefer */
+    background-color: #fff4e5; /* Light background to highlight */
+}
     </style>
 </head>
 <body>
@@ -45,7 +51,7 @@
             Analysis Data
         </h1>
     </div>
-    @if(session('success'))
+    {{-- @if(session('success'))
     <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
         <div id="toast-success" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="true" data-bs-delay="5000">
             <div class="d-flex">
@@ -106,7 +112,7 @@ if(day == 0 || day == 6 ){
 }
         });
         </script>
-
+ --}}
 
 <div class="center-container">
     <a class=" btn btn-outline-primary" href="{{route ('create')}}" >create week analysis</a>  
@@ -231,7 +237,7 @@ if(day == 0 || day == 6 ){
             @foreach ($quick as $q)
             @if ($q->result===null)
             <tr>
-                <td>{{ $q->assetName }}</td>
+                <td>{{ $q->asset->name }}</td>
                 <td style="color: 
                 @if($q->operation == 'Buy') 
                     green 
@@ -259,6 +265,9 @@ if(day == 0 || day == 6 ){
     </table>
     <div class="center-container">
         <a class=" btn btn-outline-primary" href="{{route ('indexQuick')}}" >See Completed Quick position </a>  
-        </div>
+    </div>
+    <div class="center-container">
+        <a href="{{ route('asset.index') }}" class="btn btn-outline-primary">Asset Side</a>
+    </div>
 </body>
 </html>

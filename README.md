@@ -1,66 +1,158 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Analysis Trade
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Overview
 
-## About Laravel
+Analysis Trade is a Laravel-based web application for traders to record, analyze, and improve their trading performance. It provides tools for trade tracking, asset management, daily task organization, challenge monitoring, and money management.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Features
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- **Trade Tracking:**  
+  Create, update, and review trades with detailed analysis and quick position entries.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Asset Management:**  
+  Add, edit, and view trading assets with custom attributes.
 
-## Learning Laravel
+- **To-Do Lists & Tasks:**  
+  Organize daily tasks, track completion rates, and build productive habits.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- **Challenges:**  
+  Set personal trading challenges and monitor progress.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- **Money Management:**  
+  Plan and track risk management strategies.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+- **Live Notes:**  
+  Add real-time notes to trades for learning and review.
 
-## Laravel Sponsors
+## Technologies Used
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Backend:** Laravel, Eloquent ORM, Artisan
+- **Frontend:** Blade, Bootstrap, Custom CSS/JS
+- **Database:** SQLite, Migrations, Seeders, Factories
+- **Other:** Vite, .env configuration
 
-### Premium Partners
+## Getting Started
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+1. **Clone the repository:**
+   ```
+   git clone https://github.com/oussamabensaidi/trade-app.git
+   cd analysis_trade
+   ```
 
-## Contributing
+2. **Install dependencies:**
+   ```
+   composer install
+   npm install
+   ```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+3. **Set up environment:**
+   - Copy `.env.example` to `.env`
+   - Configure database and other settings
 
-## Code of Conduct
+4. **Run migrations and seeders:**
+   ```
+   php artisan migrate --seed
+   ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+5. **Start the development server:**
+   ```
+   php artisan serve
+   ```
 
-## Security Vulnerabilities
+6. **Build frontend assets:**
+   ```
+   npm run dev
+   ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## Folder Structure
+
+- `app/` — Controllers, Models
+- `resources/views/` — Blade templates
+- `database/` — Migrations, seeders, factories
+- `routes/` — Web and console routes
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is for educational and personal use.
+
+---
+
+For more details, see the documentation below 
+
+# Analysis Trade App Documentation
+
+## Overview
+
+**Analysis Trade** is a Laravel-based web application designed to help users systematically track, analyze, and improve their trading activities. It provides tools for recording trade details, managing assets, tracking daily tasks, and monitoring progress through challenges and money management strategies.
+
+## What the App Does
+
+- **Trade Analysis:**  
+  Users can create, update, and complete detailed trade analyses, including asset selection, operation type, result prediction, and actual outcomes.  
+  Quick position tracking is also supported for fast trade entries.
+
+- **Asset Management:**  
+  Users can add, edit, and view assets with attributes like type, win/lose percentages, favorite indicators, and study objectives.
+
+- **To-Do List & Task Management:**  
+  Daily to-do lists and tasks help users build productive habits. Tasks can be created, edited, archived, and tracked for completion rates and streaks.
+
+- **Challenges:**  
+  Users can set up personal challenges, track failed attempts, victories, and motivation to improve discipline.
+
+- **Money Management:**  
+  Risk plans and money management strategies can be created and tracked to support responsible trading.
+
+- **Live Notes:**  
+  Users can add live notes to trades for real-time observations and learning.
+
+- **Progress Tracking:**  
+  The app visualizes progress rates, top/flop/oldest tasks, and recent performance to motivate improvement.
+
+## Problems Solved
+
+- **Trading Discipline:**  
+  By enforcing structured analysis and review, the app helps traders avoid impulsive decisions and learn from past trades.
+
+- **Habit Building:**  
+  The to-do list and task tracking features encourage consistent routines and self-improvement.
+
+- **Performance Monitoring:**  
+  Users can easily see their strengths and weaknesses through progress rates, task statistics, and challenge outcomes.
+
+- **Risk Management:**  
+  Integrated money management tools promote safer trading practices.
+
+- **Knowledge Retention:**  
+  Live notes and detailed trade records help users retain insights and avoid repeating mistakes.
+
+## Technologies Used
+
+- **Backend:**  
+  - [Laravel] PHP framework  
+  - Eloquent ORM for database models  
+  - Artisan CLI for commands
+
+- **Frontend:**  
+  - Blade templating engine  
+  - Bootstrap 5 for responsive UI  
+  - Custom CSS and JS for interactivity
+
+- **Database:**  
+  - SQLite (default)  
+  - Migrations for schema management  
+  - Seeders and Factories for test data
+
+- **Other:**  
+  - Vite for asset bundling  
+  - .env configuration for environment variables
+
+## Folder Structure
+
+- `app/` — Controllers, Models, Providers  
+- `resources/views/` — Blade templates for all pages  
+- `database/` — Migrations, seeders, factories, SQLite DB  
+- `routes/` — Web and console routes  
+- `public/` — Entry point and assets
+
+---
